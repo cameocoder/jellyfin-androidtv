@@ -69,7 +69,8 @@ fun initializePreviewView(
 					AsyncImage(
 						url = cover.getUrl(api),
 						blurHash = cover.blurHash,
-						aspectRatio = cover.aspectRatio?.toFloat() ?: 1f,
+						errorRes = R.drawable.ic_music_album,
+						aspectRatio = cover.aspectRatio ?: 1f,
 						scaleType = ImageView.ScaleType.CENTER_INSIDE,
 						modifier = Modifier
 							.alpha(coverViewAlpha)

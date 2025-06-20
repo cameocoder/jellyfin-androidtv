@@ -106,6 +106,7 @@ fun NextUpScreen(
 					.height(75.dp),
 				url = logo.getUrl(api),
 				blurHash = logo.blurHash,
+				errorRes = R.drawable.ic_movie,
 				aspectRatio = logo.aspectRatio ?: 1f,
 			)
 		}
@@ -170,6 +171,7 @@ fun NextUpOverlay(
 					.clip(JellyfinTheme.shapes.extraSmall),
 				url = thumbnail.getUrl(api),
 				blurHash = thumbnail.blurHash,
+				errorRes = R.drawable.ic_movie,
 				aspectRatio = thumbnail.aspectRatio ?: 1f,
 			)
 		}

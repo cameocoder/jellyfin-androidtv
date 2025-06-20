@@ -3,11 +3,13 @@ package org.jellyfin.androidtv.ui.presentation
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.leanback.widget.RowPresenter
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.DetailRowView
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow
 import org.jellyfin.androidtv.util.InfoLayoutHelper
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.api.BaseItemKind
+import timber.log.Timber
 
 class MyDetailsOverviewRowPresenter(
 	private val markdownRenderer: MarkdownRenderer,
@@ -33,7 +35,8 @@ class MyDetailsOverviewRowPresenter(
 			binding.infoTitle3.text = row.infoItem3?.label
 			binding.infoValue3.text = row.infoItem3?.value
 
-			binding.mainImage.load(row.imageDrawable, null, null, 1.0, 0)
+			Timber.d("MyDetailsOverviewRowPresenter: ${row.infoItem1?.label} ${row.infoItem2?.label} ${row.infoItem3?.label} ${row.imageUrl}")
+			binding.mainImage.load(row.imageUrl, null, null, R.drawable.ic_error, 1.0, 0)
 
 			setSummary(row.summary)
 

@@ -59,9 +59,9 @@ public class GuideChannelHeader extends RelativeLayout {
                 imageHelper.getPrimaryImageUrl(mChannel,null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT),
                 null,
                 null,
+                R.drawable.ic_tv,
                 0.0,
-                0
-        );
+                0);
     }
 
     public BaseItemDto getChannel() { return mChannel; }

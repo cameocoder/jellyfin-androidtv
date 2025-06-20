@@ -26,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.AsyncImage
@@ -101,6 +102,7 @@ fun DreamContentNowPlaying(
 			AsyncImage(
 				url = primaryImage.getUrl(api),
 				blurHash = primaryImage.blurHash,
+				errorRes = R.drawable.ic_movie,
 				scaleType = ImageView.ScaleType.CENTER_CROP,
 				modifier = Modifier
 					.size(128.dp)

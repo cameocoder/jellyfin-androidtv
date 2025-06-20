@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.presentation
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.leanback.widget.Presenter
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView
@@ -26,11 +25,12 @@ class UserViewCardPresenter(
 			val baseItem = rowItem?.baseItem
 
 			// Load image
-			val image = baseItem?.itemImages[ImageType.PRIMARY]
+			val image = baseItem?.itemImages?.get(ImageType.PRIMARY)
 			cardView.mainImageView.load(
 				url = image?.let(imageHelper::getImageUrl),
 				blurHash = image?.blurHash,
-				placeholder = ContextCompat.getDrawable(cardView.context, R.drawable.tile_land_folder),
+				placeholderRes = R.drawable.tile_land_folder,
+				errorRes = R.drawable.tile_land_folder,
 				aspectRatio = ImageHelper.ASPECT_RATIO_16_9,
 				blurHashResolution = 32,
 			)

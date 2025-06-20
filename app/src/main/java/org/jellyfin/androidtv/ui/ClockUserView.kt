@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -44,7 +43,8 @@ class ClockUserView @JvmOverloads constructor(
 
 		binding.clockUserImage.load(
 			url = currentUser?.let(imageHelper::getPrimaryImageUrl),
-			placeholder = ContextCompat.getDrawable(context, R.drawable.ic_user)
+			placeholderRes = R.drawable.ic_user,
+			errorRes = R.drawable.ic_user,
 		)
 
 		binding.clockUserImage.isVisible = currentUser != null

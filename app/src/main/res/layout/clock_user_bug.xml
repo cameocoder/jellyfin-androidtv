@@ -27,7 +27,7 @@
         android:layout_height="41dp"
         android:padding="4dp"
         app:circleCrop="true"
-        tools:src="@drawable/ic_user" />
+        tools:src="@tools:sample/avatars" />
 
     <TextClock
         android:id="@+id/clock"

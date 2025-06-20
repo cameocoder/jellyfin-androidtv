@@ -2,13 +2,13 @@ package org.jellyfin.androidtv.ui.card
 
 import android.content.Context
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
 import androidx.core.view.updateLayoutParams
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewCardDefaultBinding
@@ -59,8 +59,8 @@ class DefaultCardView @JvmOverloads constructor(
 	fun setImage(
 		url: String? = null,
 		blurHash: String? = null,
-		placeholder: Drawable? = null,
-	) = binding.banner.load(url, blurHash, placeholder)
+		@DrawableRes placeholderRes: Int,
+	) = binding.banner.load(url, blurHash, placeholderRes, placeholderRes,)
 
 	fun setPopupMenu(init: MenuBuilder.() -> Unit) {
 		setOnLongClickListener {

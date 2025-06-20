@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -222,7 +221,7 @@ class ServerFragment : Fragment() {
 			holder.cardView.title = user.name
 			holder.cardView.setImage(
 				url = startupViewModel.getUserImage(server, user),
-				placeholder = ContextCompat.getDrawable(context, R.drawable.tile_user)
+				placeholderRes = R.drawable.tile_user
 			)
 			holder.cardView.setPopupMenu {
 				// Logout button

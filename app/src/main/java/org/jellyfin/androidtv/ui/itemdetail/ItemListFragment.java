@@ -312,7 +312,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         Double aspect = imageHelper.getValue().getImageAspectRatio(item, false);
         String primaryImageUrl = imageHelper.getValue().getPrimaryImageUrl(item, null, ImageHelper.MAX_PRIMARY_IMAGE_HEIGHT);
         mPoster.setPadding(0, 0, 0, 0);
-        mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
+        mPoster.load(primaryImageUrl, null, R.drawable.ic_album, R.drawable.ic_album, aspect, 0);
 
         ItemListFragmentHelperKt.getPlaylist(this, mBaseItem, itemResponse);
     }

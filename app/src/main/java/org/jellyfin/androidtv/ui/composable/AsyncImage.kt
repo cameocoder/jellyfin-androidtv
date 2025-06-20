@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.composable
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +26,8 @@ fun AsyncImage(
 	modifier: Modifier = Modifier,
 	url: String? = null,
 	blurHash: String? = null,
-	placeholder: Drawable? = null,
+	@DrawableRes placeholder: Int? = null,
+	@DrawableRes errorRes: Int,
 	aspectRatio: Float = 1f,
 	blurHashResolution: Int = 32,
 	scaleType: ImageView.ScaleType? = null,
@@ -50,7 +51,8 @@ fun AsyncImage(
 				view.load(
 					url = compositionState.url,
 					blurHash = compositionState.blurHash,
-					placeholder = placeholder,
+					placeholderRes = placeholder,
+					errorRes = errorRes,
 					aspectRatio = aspectRatio.toDouble(),
 					blurHashResolution = blurHashResolution,
 				)

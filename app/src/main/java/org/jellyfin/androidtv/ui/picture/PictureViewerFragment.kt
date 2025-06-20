@@ -219,6 +219,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 				maxHeight = resources.displayMetrics.heightPixels,
 			),
 			blurHash = image?.blurHash,
+			errorRes = R.drawable.ic_photo,
 			aspectRatio = image?.aspectRatio?.toDouble() ?: 1.0,
 		)
 	}

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="2sp"
     android:background="@drawable/light_border">
 
@@ -29,12 +30,13 @@
         android:layout_alignParentStart="true" />
 
     <org.jellyfin.androidtv.ui.AsyncImageView
+        android:id="@+id/channelImage"
         android:layout_width="100sp"
         android:layout_height="50sp"
-        android:id="@+id/channelImage"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/channelName"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
     <ImageView
         android:layout_width="wrap_content"

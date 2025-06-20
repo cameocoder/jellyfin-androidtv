@@ -1,18 +1,22 @@
 package org.jellyfin.androidtv.ui
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import coil3.Image
 import coil3.ImageLoader
 import coil3.asImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import coil3.request.error
+import coil3.request.fallback
 import coil3.request.target
 import coil3.request.transformations
 import coil3.transform.CircleCropTransformation
@@ -54,18 +58,19 @@ class AsyncImageView @JvmOverloads constructor(
 
 	/**
 	 * Load an image from the network using [url]. When the [url] is null or returns a bad response
-	 * the [placeholder] is shown. A [blurHash] is shown while loading the image. An aspect ratio is
+	 * the [placeholderRes] is shown. A [blurHash] is shown while loading the image. An aspect ratio is
 	 * required when using a BlurHash or the sizing will be incorrect.
 	 */
 	fun load(
 		url: String? = null,
 		blurHash: String? = null,
-		placeholder: Drawable? = null,
+		@DrawableRes placeholderRes: Int? = null,
+		@DrawableRes errorRes: Int,
 		aspectRatio: Double = 1.0,
 		blurHashResolution: Int = 32,
 	) = doOnAttach {
 		lifeCycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
-			var placeholderOrBlurHash = placeholder
+			var placeholderOrBlurHash: Image? = null
 
 			// Only show blurhash if an image is going to be loaded from the network
 			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
@@ -74,29 +79,31 @@ class AsyncImageView @JvmOverloads constructor(
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
 					if (aspectRatio >= 1) blurHashResolution else round(blurHashResolution / aspectRatio).toInt(),
 				)
-				if (blurHashBitmap != null) placeholderOrBlurHash = blurHashBitmap.toDrawable(resources)
+				if (blurHashBitmap != null) {
+					placeholderOrBlurHash = blurHashBitmap.toDrawable(resources).asImage()
+				} else {
+					placeholderRes?.let {
+						placeholderOrBlurHash = ContextCompat.getDrawable(context, placeholderRes)?.asImage()
+					}
+				}
 			}
+
+			val crossFadeDurationMs = crossFadeDuration.inWholeMilliseconds.toInt()
 
 			// Start loading image or placeholder
-			if (url == null) {
-				imageLoader.enqueue(ImageRequest.Builder(context).apply {
-					target(this@AsyncImageView)
-					data(placeholder)
-					if (circleCrop) transformations(CircleCropTransformation())
-				}.build())
-			} else {
-				imageLoader.enqueue(ImageRequest.Builder(context).apply {
-					val crossFadeDurationMs = crossFadeDuration.inWholeMilliseconds.toInt()
-					if (crossFadeDurationMs > 0) crossfade(crossFadeDurationMs)
-					else crossfade(false)
-
+			imageLoader.enqueue(
+				ImageRequest.Builder(context)
+				.error(errorRes)
+				.fallback(errorRes).apply {
 					target(this@AsyncImageView)
 					data(url)
-					placeholder(placeholderOrBlurHash?.asImage())
+					placeholder(placeholderOrBlurHash)
+					if (crossFadeDurationMs > 0) crossfade(crossFadeDurationMs)
+					else crossfade(false)
 					if (circleCrop) transformations(CircleCropTransformation())
-					error(placeholder?.asImage())
-				}.build())
-			}
+				}.build()
+			)
+
 		}
 	}
 }

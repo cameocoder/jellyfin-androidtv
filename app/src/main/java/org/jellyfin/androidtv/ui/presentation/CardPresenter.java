@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
@@ -70,13 +71,14 @@ public class CardPresenter extends Presenter {
 
         private BaseRowItem mItem;
         private LegacyImageCardView mCardView;
-        private Drawable mDefaultCardImage;
+        @DrawableRes
+        private int mDefaultCardImage;
 
         public ViewHolder(View view) {
             super(view);
 
             mCardView = (LegacyImageCardView) view;
-            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+            mDefaultCardImage = R.drawable.tile_port_video;
         }
 
         public int getCardWidth() {
@@ -97,7 +99,7 @@ public class CardPresenter extends Presenter {
             switch (mItem.getBaseRowType()) {
 
                 case BaseItem:
-                    org.jellyfin.sdk.model.api.BaseItemDto itemDto = mItem.getBaseItem();
+                    BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
                     boolean showProgress = false;
                     if (imageType.equals(ImageType.BANNER)) {
@@ -110,7 +112,7 @@ public class CardPresenter extends Presenter {
                     switch (itemDto.getType()) {
                         case AUDIO:
                         case MUSIC_ALBUM:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_audio);
+                            mDefaultCardImage = R.drawable.tile_audio;
                             if (isUniformAspect) {
                                 aspect = 1.0;
                             } else if (aspect < .8) {
@@ -119,10 +121,10 @@ public class CardPresenter extends Presenter {
                             showWatched = false;
                             break;
                         case PERSON:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
+                            mDefaultCardImage = R.drawable.tile_port_person;
                             break;
                         case MUSIC_ARTIST:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
+                            mDefaultCardImage = R.drawable.tile_port_person;
                             if (isUniformAspect) {
                                 aspect = 1.0;
                             } else if (aspect < .8) {
@@ -132,16 +134,16 @@ public class CardPresenter extends Presenter {
                             break;
                         case SEASON:
                         case SERIES:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                            mDefaultCardImage = R.drawable.tile_port_tv;
                             if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
                         case EPISODE:
                             if (m instanceof BaseItemDtoBaseRowItem && ((BaseItemDtoBaseRowItem) m).getPreferSeriesPoster()) {
-                                mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                                mDefaultCardImage = R.drawable.tile_port_tv;
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             } else {
-                                mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
+                                mDefaultCardImage = R.drawable.tile_land_tv;
                                 aspect = ImageHelper.ASPECT_RATIO_16_9;
                                 if (itemDto.getLocationType() != null) {
                                     switch (itemDto.getLocationType()) {
@@ -164,32 +166,32 @@ public class CardPresenter extends Presenter {
                             // Force the aspect ratio to 16x9 because the server is returning the wrong value of 1
                             // When this is fixed we should still force 16x9 if an image is not set to be consistent
                             aspect = ImageHelper.ASPECT_RATIO_16_9;
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_folder);
+                            mDefaultCardImage = R.drawable.tile_land_folder;
                             isUserView = true;
                             break;
                         case FOLDER:
                         case GENRE:
                         case MUSIC_GENRE:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
+                            mDefaultCardImage = R.drawable.tile_port_folder;
                             break;
                         case PHOTO:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_photo);
+                            mDefaultCardImage = R.drawable.tile_land_photo;
                             showWatched = false;
                             break;
                         case PHOTO_ALBUM:
                         case PLAYLIST:
                             showWatched = false;
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
+                            mDefaultCardImage = R.drawable.tile_port_folder;
                             break;
                         case MOVIE:
                         case VIDEO:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            mDefaultCardImage = R.drawable.tile_port_video;
                             showProgress = true;
                             if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
                         default:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            mDefaultCardImage = R.drawable.tile_port_video;
                             if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageHelper.ASPECT_RATIO_2_3;
                             break;
@@ -226,7 +228,7 @@ public class CardPresenter extends Presenter {
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     break;
                 case LiveTvChannel:
-                    org.jellyfin.sdk.model.api.BaseItemDto channel = mItem.getBaseItem();
+                    BaseItemDto channel = mItem.getBaseItem();
                     // TODO: Is it even possible to have channels with banners or thumbs?
                     double tvAspect = imageType.equals(ImageType.BANNER) ? ImageHelper.ASPECT_RATIO_BANNER :
                         imageType.equals(ImageType.THUMB) ? ImageHelper.ASPECT_RATIO_16_9 :
@@ -239,10 +241,10 @@ public class CardPresenter extends Presenter {
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     // Channel logos should fit within the view
                     mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_tv);
+                    mDefaultCardImage = R.drawable.tile_tv;
                     break;
                 case LiveTvProgram:
-                    org.jellyfin.sdk.model.api.BaseItemDto program = mItem.getBaseItem();
+                    BaseItemDto program = mItem.getBaseItem();
                     if (program.getLocationType() != null) {
                         switch (program.getLocationType()) {
                             case FILE_SYSTEM:
@@ -256,7 +258,7 @@ public class CardPresenter extends Presenter {
                         }
                     }
                     mCardView.setMainImageDimensions(192, 129, ImageView.ScaleType.CENTER_INSIDE);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
+                    mDefaultCardImage = R.drawable.tile_land_tv;
                     //Always show info for programs
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                     break;
@@ -269,31 +271,31 @@ public class CardPresenter extends Presenter {
                         cardWidth = 115;  //Guard against zero size images causing picasso to barf
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                    mDefaultCardImage = R.drawable.tile_port_tv;
                     break;
                 case Person:
                     cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageHelper.ASPECT_RATIO_7_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
+                    mDefaultCardImage = R.drawable.tile_port_person;
                     break;
                 case Chapter:
                     cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageHelper.ASPECT_RATIO_16_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_chapter);
+                    mDefaultCardImage = R.drawable.tile_chapter;
                     break;
                 case GridButton:
                     cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageHelper.ASPECT_RATIO_7_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                    mDefaultCardImage = R.drawable.tile_port_video;
                     break;
                 case SeriesTimer:
                     cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageHelper.ASPECT_RATIO_16_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_series_timer);
+                    mDefaultCardImage = R.drawable.tile_land_series_timer;
                     //Always show info for timers
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                     break;
@@ -305,7 +307,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
-            mCardView.getMainImageView().load(url, blurHash, mDefaultCardImage, aspect, 32);
+            mCardView.getMainImageView().load(url, blurHash, mDefaultCardImage, mDefaultCardImage, aspect, 32);
         }
 
         protected void resetCardView() {
