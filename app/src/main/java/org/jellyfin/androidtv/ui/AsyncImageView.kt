@@ -81,10 +81,11 @@ class AsyncImageView @JvmOverloads constructor(
 				)
 				if (blurHashBitmap != null) {
 					placeholderOrBlurHash = blurHashBitmap.toDrawable(resources).asImage()
-				} else {
-					placeholderRes?.let {
-						placeholderOrBlurHash = ContextCompat.getDrawable(context, placeholderRes)?.asImage()
-					}
+				}
+			}
+			if (placeholderOrBlurHash == null) {
+				placeholderRes?.let {
+					placeholderOrBlurHash = ContextCompat.getDrawable(context, placeholderRes)?.asImage()
 				}
 			}
 
