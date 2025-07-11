@@ -37,7 +37,7 @@ import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
-import org.jellyfin.androidtv.ui.card.DefaultCardView
+import org.jellyfin.androidtv.ui.card.UserCardView
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
@@ -210,19 +210,15 @@ class ServerFragment : Fragment() {
 		override fun areItemsTheSame(old: User, new: User): Boolean = old.id == new.id
 
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-			val cardView = DefaultCardView(context).apply {
-				setSize(DefaultCardView.Size.SQUARE)
-			}
+			val cardView = UserCardView(context)
 
 			return ViewHolder(cardView)
 		}
 
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
-			holder.cardView.title = user.name
-			holder.cardView.setImage(
-				url = startupViewModel.getUserImage(server, user),
-				placeholderRes = R.drawable.tile_user
-			)
+			holder.cardView.name = user.name
+			holder.cardView.image = startupViewModel.getUserImage(server, user)
+
 			holder.cardView.setPopupMenu {
 				// Logout button
 				if (user is PrivateUser && user.accessToken != null) {
@@ -246,7 +242,7 @@ class ServerFragment : Fragment() {
 		}
 
 		private class ViewHolder(
-			val cardView: DefaultCardView,
+			val cardView: UserCardView,
 		) : RecyclerView.ViewHolder(cardView)
 	}
 }
