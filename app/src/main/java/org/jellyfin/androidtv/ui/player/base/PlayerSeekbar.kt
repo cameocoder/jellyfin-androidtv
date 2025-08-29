@@ -14,8 +14,10 @@ import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.koin.compose.koinInject
+import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.times
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun PlayerSeekbar(
@@ -30,7 +32,7 @@ fun PlayerSeekbar(
 		active = positionInfo.active,
 		duration = positionInfo.duration,
 	)
-	val seekbarProgress by remember {
+	val seekbarProgress by remember(progress, positionInfo) {
 		derivedStateOf { determinePlayerProgress(progress, positionInfo) }
 	}
 	val seekForwardAmount = remember { playbackManager.options.defaultFastForwardAmount() }
@@ -52,4 +54,4 @@ fun PlayerSeekbar(
 private fun determinePlayerProgress(
 	progress: Float,
 	positionInfo: PositionInfo
-): Duration = progress.toDouble() * positionInfo.duration
+): Duration = (progress.toDouble() * positionInfo.duration.inWholeMilliseconds).milliseconds
